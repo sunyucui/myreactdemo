@@ -33,7 +33,7 @@ function PeopleList() {
   const listItem = chemists.map(i => {
     return (
       <li key={i.id}>
-        <img src={i.imageId} alt={i.name}></img>
+        <img src={i.imageId} alt={i.name} style={{width:100,height:100}}></img>
         <p>
           <b>{i.name}</b>
           {' ' + i.profession + ' '}

@@ -2,11 +2,56 @@ import { useState } from 'react'
 import { sculptureList } from './data'
 import { useImmer } from 'use-immer'
 
-export { ToolBar, ToolBarBubble, Gallery, MyForm, Counter, MoveDot, ObjectForm,ObjectForm2 }
+export { ToolBar, ToolBarBubble, Gallery, MyForm, Counter, MoveDot, ObjectForm,ObjectForm2,ToDoList }
+
+/**
+ * 修改state中的数组
+ */
+let nextId = 0;
+function ToDoList(){
+    const [todoItem,setTodoItem] = useState('');
+    const [list, setList] = useState([]);
+
+    function handleInputChange(e){
+        setTodoItem(e.target.value)
+    }
+    function handleSubmit(e){
+        // e.stopPropagation();
+        e.preventDefault();
+        setList([...list, {id:nextId++, item: todoItem, isFinshed: false}])
+        setTodoItem("")
+    }
+    // 修改数组，点击改变状态
+    function handleItemClick(id){
+      setList(list.map((item,index)=>{ 
+        if(item.id===id) {
+          list[index].isFinshed=true;
+        }
+          return list[index]
+      }))
+    }
+    return (
+        <>
+        <h5 className='h5Title'>修改state中的数组 实现TODOList</h5>
+            <form>
+                <input value={todoItem} onChange={handleInputChange}></input>
+                <button onClick={handleSubmit}>添加</button>
+            </form>
+            <ul>
+                {list.map(i => 
+                    <li key={i.id} style={{cursor: 'pointer'}}>
+                      {i.isFinshed ?(<del>{i.item}</del>) :i.item}
+                      <EventButton onClick={() => handleItemClick(i.id)}>完成</EventButton>
+                      <EventButton onClick={() => setList(list.filter(item => i.id !== item.id)) }>删除</EventButton>
+                    </li>
+                )}
+            </ul>
+        </>
+    )
+}
 /**
  * state修改对象中的单个属性
  */
-
 
 function ObjectForm() {
   const [person, setPerson] = useState({
@@ -285,6 +330,7 @@ function Gallery() {
                 <EventButton onClick={handleNextClick}>
                     下一页
                 </EventButton>
+                <img src={galleryItem.url} alt='pic' style={{width:100,height:100}}></img>
                 <b>{galleryItem.name}</b> by {galleryItem.artist}
                 <h6>page {index} / {sculptureList.length}</h6>
                 <EventButton onClick={handleShowMore}>
