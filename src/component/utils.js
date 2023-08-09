@@ -1,4 +1,18 @@
-  // 对角线元素一致则为赢
+// 提交问答表单
+export function submitQuizForm(answer){
+  return new Promise( (resolve, reject) =>{
+    setTimeout(() => {
+      let shouldError = answer.toLowerCase()!=='rose';
+      if(shouldError){
+        reject(new Error('答案错误，再试一次吧'))
+      } else {
+        resolve()
+      }
+    },1000)
+  })
+}
+
+// 对角线元素一致则为赢
 export function calWinner(squares) {
     // 所有对角线下标
     const lines = [

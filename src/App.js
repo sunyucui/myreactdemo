@@ -1,12 +1,15 @@
 import './css/App.css';
-import Game from './component/game'
-import { MyApp, ShowList, Profile, PackingList, PeopleList, Tea } from './component/uiDescription'
-import {ToolBar,ToolBarBubble,Gallery, MyForm, Counter,MoveDot,ObjectForm, ObjectForm2,ToDoList} from './component/acton'
+import Game from './component/game';
+import { MyApp, ShowList, Profile, PackingList, PeopleList, Tea } from './component/uiDescription';
+import {ToolBar,ToolBarBubble,Gallery, MyForm, Counter,MoveDot,ObjectForm, ObjectForm2,ToDoList} from './component/acton';
+import {Quiz,Schedule} from './component/state'
 
 export default function App() {
   return (
     <>
       <h1 className='welcomeText'> hello this is a react demo</h1>
+      <Schedule />
+      <Quiz />
       <ToDoList />
       <ObjectForm2 />
       <ObjectForm />

@@ -1,6 +1,9 @@
 
-.welcomeText {
+.welcomeText, .errorMsg {
   color:red;
+}
+.successMsg{
+  color:green;
 }
 .h5Title{
   color: blue;
