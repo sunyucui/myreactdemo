@@ -44,6 +44,34 @@
 - 渲染和提交
   - 初次渲染 react-dom createRoot 调用render
   - 状态改变渲染 差异时才会更改 DOM 节点
+  - 组件渲染部分是除了内部function的部分
+  - 组件内部 function 是事件处理程序
+> 应急方案
+- ref
+  - 保存状态 但是更变不会引起组件的重新渲染,是js对象，ref.current读写
+  - 使用场景：操作dom `<div ref={myRef}>`,存储timeoutID
+  - ref可以直接作用内部标签，不能直接作用组件，需要用forwardRef API来转发
+- Effect  `useEffect(()=>{return ()=>{}},[])` 备选方案，尽可能渲染时修改
+  - dom渲染更新后执行的代码，可以用来处理网络请求，浏览器API、 第三方
+  - 第二个参数 依赖数组， 空数组（挂载/首次渲染时执行一次），或有多个参数（存在变更渲染）
+  - 返回清理函数 例如：关闭掉网络的链接，关闭掉弹窗、退订订阅的事件等
+  - 开发环境会执行两次，官方规定的。不要添加用户购买逻辑，不必使用 Effect 来处理用户事件
+  - 第一个参数形成一个闭包
+  - 不要进行耗时计算，不必使用 Effect 来转换渲染所需的数据
+  - 避免将对象和函数作为 Effect 的依赖，会频繁更新
+- 响应式
+  - 组件内部声明的 state 和 props 变量被称为 响应式值
+  - 事件处理函数内部的逻辑是非响应式的
+  - Effect 内部的逻辑是响应式的
+  - 响应式值写到依赖数组
+- useEffectEvent 
+  - 用来移除effect中的不需要响应的依赖值
+  - 只在 Effect 内部调用他们
+  - 不要把他们传给其他的组件或者 Hook
+  - Effect Events 不是响应式的，因此你不需要将它们指定为依赖
+- 自定义hook
+  - use开头
+- componentDidMount跟useEffect一样在严格模式下会被调用两次
 ### 创建一个项目
 通过脚手架 `npx create-react-app myreactdemo`  
 >文件目录
@@ -151,6 +179,15 @@ function Profile(){
 - React 在移除一个组件时，也会销毁它的 state
 - Form onFinish 没有event
 - 子组件需要上层数据
+
+### Hook
+- useState
+- useReducer
+- useContext
+- useRef
+- useEffect
+- useEffectEvent
+
 >与vue的一些不同
 - dom的value全都绑定state可以实现绑定，不同于vue的双向绑定
 - react的事件不能直接传递参数  可以写成箭头函数的方式
